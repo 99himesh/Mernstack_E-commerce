@@ -1,7 +1,7 @@
 
 import React from "react"
-import ProductList from "../features/productList/ProductList"
 import Navbar from "../features/navbar.js/Navbar"
+import ProductList from "../features/product/components/ProductList"
 export default function Home(){
     return(
         <>
