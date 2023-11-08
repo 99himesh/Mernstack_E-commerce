@@ -23,11 +23,9 @@ export default function ProductList() {
 
 
   const sortOptions = [
-    { name: 'Most Popular', href: '#', current: true },
-    { name: 'Best Rating', href: '#', current: false },
-    { name: 'Newest', href: '#', current: false },
-    { name: 'Price: Low to High', href: '#', current: false },
-    { name: 'Price: High to Low', href: '#', current: false },
+    { name: 'Best Rating',sort:"rating",order:"asc" ,current: false },
+    { name: 'Price: Low to High',sort:"price", order:"asc", current: false },
+    { name: 'Price: High to Low',sort:"price",order:"desc", current: false },
   ]
 
   const filters = [
@@ -126,11 +124,13 @@ export default function ProductList() {
     const newFilter={...filter,[id]:option.value}
     setFilter(newFilter)
    dispatch(fetchAllProductsByFilterAsync(newFilter))
-
-
-
   }
 
+  const sortHandle=(e,option)=>{
+    const newFilter={...filter,_sort:option.sort,_order:option.order}
+    setFilter(newFilter)
+   dispatch(fetchAllProductsByFilterAsync(newFilter))
+  }
 
 
   return (
@@ -264,8 +264,8 @@ export default function ProductList() {
                           {sortOptions.map((option) => (
                             <Menu.Item key={option.name}>
                               {({ active }) => (
-                                <a
-                                  href={option.href}
+                                <p
+                                  onClick={(e)=>sortHandle(e,option)}
                                   className={classNames(
                                     option.current ? 'font-medium text-gray-900' : 'text-gray-500',
                                     active ? 'bg-gray-100' : '',
@@ -273,7 +273,7 @@ export default function ProductList() {
                                   )}
                                 >
                                   {option.name}
-                                </a>
+                                </p>
                               )}
                             </Menu.Item>
                           ))}
