@@ -1,31 +1,24 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  increment,
-  incrementAsync,
-  selectCount,
-} from '../authSlice';
-import { Link } from 'react-router-dom';
+import { cheackUserAsync, selectLoggedInUser, seletError } from '../authSlice';
+import { Link, Navigate } from 'react-router-dom';
+import { useForm } from "react-hook-form"
+
 
 export default function Login() {
-  const count = useSelector(selectCount);
+  const {register,handleSubmit,watch,formState: { errors } } = useForm()
   const dispatch = useDispatch();
-  const [incrementAmount, setIncrementAmount] = useState('2');
-  const products = [
-    {
-      id: 1, 
-      name: 'Basic Tee',
-      href: '#',
-      imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-      imageAlt: "Front of men's Basic Tee in black.",
-      price: '$35',
-      color: 'Black',
-    },
-    // More products...
-  ]
+  const user=useSelector(selectLoggedInUser)
+  const error=useSelector(seletError)
+ 
 
   return (
+  
   <div>
+    {user && <Navigate to="/" replace={true}></Navigate>}
+
+
+
      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
@@ -39,20 +32,20 @@ export default function Login() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+        <form noValidate className="space-y-6" onSubmit={handleSubmit((data)=>{
+            dispatch(cheackUserAsync({email:data.email,password:data.password}))
+          })}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                 Email address
               </label>
               <div className="mt-2">
-                <input
+              <input
                   id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
+                    {...register("email",{ required: "email is required",pattern:{value:/\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/gi,message:"email not vaid"}})}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {errors.email &&  <p className='text-red-500 text-start'>{errors.email.message}</p>}
               </div>
             </div>
 
@@ -68,14 +61,13 @@ export default function Login() {
                 </div>
               </div>
               <div className="mt-2">
-                <input
+              <input
                   id="password"
-                  name="password"
+                  {...register("password",{ required: "password required" })}
                   type="password"
-                  autoComplete="current-password"
-                  required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {error &&  <p className='text-red-500 text-start'>{error.message}</p>}
               </div>
             </div>
 

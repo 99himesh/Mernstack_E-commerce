@@ -15,11 +15,12 @@ import {
 import CartPage from './pages/CartPage';
 import CheackOut from './pages/cheackOut';
 import ProductDetailsPage from './pages/productDetailPage';
+import Protected from './features/auth/component/Protected';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home></Home>
+    element: <Protected> <Home></Home> </Protected>
   },
   {
     path: "/login",
@@ -31,15 +32,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/cart",
-    element:<CartPage></CartPage>
+    element:<Protected><CartPage></CartPage></Protected>
   },
   {
     path: "/cheackOut",
-     element:<CheackOut></CheackOut>
+     element:<Protected><CheackOut></CheackOut></Protected>
   },
   {
     path: "/product-details/:id",
-     element:<ProductDetailsPage></ProductDetailsPage>
+     element:<Protected><ProductDetailsPage></ProductDetailsPage></Protected>
   }
   
 ]);
