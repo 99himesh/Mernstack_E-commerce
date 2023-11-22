@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import logo from './logo.svg';
 import { Counter } from './features/counter/Counter';
 import './App.css';
@@ -16,6 +16,9 @@ import CartPage from './pages/CartPage';
 import CheackOut from './pages/cheackOut';
 import ProductDetailsPage from './pages/productDetailPage';
 import Protected from './features/auth/component/Protected';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchItemByUserIdAsync, selectCart } from './features/cart/cartSlice';
+import { selectLoggedInUser } from './features/auth/authSlice';
 
 const router = createBrowserRouter([
   {
@@ -46,6 +49,17 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const user=useSelector(selectLoggedInUser)
+  const item=useSelector(selectCart)
+  const dispatch=useDispatch();
+ console.log(user);
+  useEffect(()=>{
+    if(user){
+    dispatch(fetchItemByUserIdAsync(user.id)) 
+    }
+    console.log("success");
+
+  },[dispatch,item.length,user])
   return (
     <div className="App">
     
