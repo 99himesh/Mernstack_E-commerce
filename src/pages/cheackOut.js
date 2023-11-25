@@ -1,94 +1,83 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteCartAsync, selectCart, updateCartAsync } from '../features/cart/cartSlice';
+import { selectLoggedInUser, updateUserAsync } from '../features/auth/authSlice';
+import { useForm } from "react-hook-form"
+import { createOrderAsync } from "../features/order/orderSlice";
 
-const products = [
-  {
-    id: 1,
-    name: 'Throwback Hip Bag',
-    href: '#',
-    color: 'Salmon',
-    price: '$90.00',
-    quantity: 1,
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg',
-    imageAlt: 'Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.',
-  },
-  {
-    id: 2,
-    name: 'Medium Stuff Satchel',
-    href: '#',
-    color: 'Blue',
-    price: '$32.00',
-    quantity: 1,
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg',
-    imageAlt:
-      'Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.',
-  },
 
-  // More products...
-]
-const addresses=[
-  {
-    name:"john",
-    street:"nirala",
-    city:"delhi",
-    pincode:226030,
-    state:"uttar pradesh",
-    phone:800989898999
-  },
-  {
-    name:"doe",
-    street:"us",
-    city:"kotlin",
-    pincode:303040,
-    state:"uttar pradesh",
-    phone:9099654546
-  },
 
-]
+
+
+
 export default function CheackOut(){  
   const [open, setOpen] = useState(true)
+  const {register,handleSubmit,reset,watch,formState: { errors } } = useForm()
+
+
+  const handleDelete=(e,id)=>{
+    dispatch(deleteCartAsync(id))
+  }
+  const handleQuantity=(e,item)=>{
+    dispatch(updateCartAsync({...item,quantity:+e.target.value}))
+
+  }
+  const dispatch = useDispatch();
+  const user=useSelector(selectLoggedInUser)
+  const items=useSelector(selectCart)
+  const totalAmount=items.reduce((amount,item)=>item.price*item.quantity+amount,0)
+  const totalQuantity=items.reduce((total,item)=>item.quantity+total,0)
+  
+  const [selectedAddress,setSelectedAdress]=useState(null);
+  const [paymentMethod,setPaymentMethod]=useState("cash")
+
+
+
+
+  const handleaddress=(e)=>{
+    setSelectedAdress(user.addresses[e.target.value])     
+  }
+
+  const handlePayment=(e)=>{
+    setPaymentMethod(e.target.value)
+  }
+  const handleOrder=()=>{
+    const order={items,totalAmount,totalQuantity,user,paymentMethod,selectedAddress}
+    dispatch(createOrderAsync(order))
+    
+  }
+ 
     return(
         <>
+      {!items.length && <Navigate to="/" replace={true}></Navigate>}
+
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 bg-gray-500 mt-5 py-5">
          <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
             <div className="lg:col-span-3 bg-white px-5 py-5">
-        <form>
+            <form noValidate className="space-y-6" onSubmit={handleSubmit((data)=>{
+                               console.log(data);
+                               dispatch(updateUserAsync({...user,addresses:[...user.addresses,data]}))
+                               reset()
+                               })}>
         <div className="space-y-12 text-start">
         <div className="border-b border-gray-900/10 pb-12">
           <h2 className="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p>
-
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="sm:col-span-3">
               <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900">
-                First name
+                Full name
               </label>
               <div className="mt-2">
                 <input
                   type="text"
-                  name="first-name"
-                  id="first-name"
-                  autoComplete="given-name"
+                  name="name"
+                  {...register("name",{required: "full name is required"})}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
-
-            <div className="sm:col-span-3">
-              <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900">
-                Last name
-              </label>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  name="last-name"
-                  id="last-name"
-                  autoComplete="family-name"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
             <div className="sm:col-span-4">
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                 Email address
@@ -96,9 +85,22 @@ export default function CheackOut(){
               <div className="mt-2">
                 <input
                   id="email"
-                  name="email"
+                  {...register("email",{ required: "email is required" })}
                   type="email"
                   autoComplete="email"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+            <div className="sm:col-span-4">
+              <label htmlFor="phone" className="block text-sm font-medium leading-6 text-gray-900">
+                Phone
+              </label>
+              <div className="mt-2">
+                <input
+                  id="phone"
+                  {...register("phone",{ required: "phone is required" })}
+                  type="tel"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -111,8 +113,7 @@ export default function CheackOut(){
               <div className="mt-2">
                 <select
                   id="country"
-                  name="country"
-                  autoComplete="country-name"
+                  {...register("country",{ required: "country is required" })}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                 >
                   <option>United States</option>
@@ -129,8 +130,8 @@ export default function CheackOut(){
               <div className="mt-2">
                 <input
                   type="text"
-                  name="street-address"
-                  id="street-address"
+                  {...register("street",{ required: "street is required" })}
+                  id="street"
                   autoComplete="street-address"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -144,7 +145,7 @@ export default function CheackOut(){
               <div className="mt-2">
                 <input
                   type="text"
-                  name="city"
+                  {...register("city",{ required: "city is required" })}
                   id="city"
                   autoComplete="address-level2"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -159,9 +160,8 @@ export default function CheackOut(){
               <div className="mt-2">
                 <input
                   type="text"
-                  name="region"
+                  {...register("state",{ required: "state is required" })}
                   id="region"
-                  autoComplete="address-level1"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -174,9 +174,8 @@ export default function CheackOut(){
               <div className="mt-2">
                 <input
                   type="text"
-                  name="postal-code"
-                  id="postal-code"
-                  autoComplete="postal-code"
+                  {...register("pincode",{ required: "pincode is required" })}
+                  id="pincode"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -205,14 +204,13 @@ export default function CheackOut(){
           
 
           <ul role="list" className="divide-y divide-gray-100 ">
-      {addresses.map((address) => (
-        <li key={address.phone} className="flex justify-between gap-x-6 py-5 px-5 border-solid border-2 ">
-
-                 
-
+      {user.addresses.map((address,index) => (
+        <li key={index} className="flex justify-between gap-x-6 py-5 px-5 border-solid border-2 ">
           <div className="flex min-w-0 gap-x-4 ">
-          <input
-                    id="cash"
+                  <input
+                    onChange={handleaddress}
+                    value={index}
+                    id="address"
                     name="address"
                     type="radio"
                     className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
@@ -228,8 +226,6 @@ export default function CheackOut(){
           <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
             <p className="text-sm leading-6 text-gray-900">Phone {address.phone}</p>
             <p className="text-sm leading-6 text-gray-900">{address.state}</p>
-
-          
           </div>
         </li>
       ))}
@@ -243,7 +239,10 @@ export default function CheackOut(){
                 <div className="flex items-center gap-x-3">
                   <input
                     id="cash"
+                    value="cash"
                     name="payments"
+                    onChange={handlePayment}
+                    checked={paymentMethod==="cash"}
                     type="radio"
                     className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                   />
@@ -254,7 +253,10 @@ export default function CheackOut(){
                 <div className="flex items-center gap-x-3">
                   <input
                     id="card"
+                    value="card"
                     name="payments"
+                    onChange={handlePayment}
+                    checked={paymentMethod==="card"}
                     type="radio"
                     className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                   />
@@ -274,46 +276,51 @@ export default function CheackOut(){
     </div>
     <div className="lg:col-span-2">
         {/* //cart */}
-        <div className='bg-gray-400  '>
-      <div className="mx-auto   max-w-5xl bg-white   mx-24 first-letter: py-6 sm:px-6 lg:px-8">
+        <div className="mx-auto   max-w-5xl bg-white    first-letter: py-6 sm:px-6 lg:px-8">
         <div className="flow-root">
           <h2 className="mt-10 text-start text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Cart
           </h2>
           <ul role="list" className="-my-6 divide-y divide-gray-200">
-            {products.map((product) => (
+            {items && items.map((product) => (
               <li key={product.id} className="flex py-6">
-                <div className="h-24 w-24  flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                   <img
-                    src={product.imageSrc}
-                    alt={product.imageAlt}
+                    src={product.thumbnail}
+                    alt={product.title}
                     className="h-full w-full object-cover object-center"
                   />
                 </div>
 
-
-                <div className="ml-1 flex flex-1 flex-col">
+                <div className="ml-4 flex flex-1 flex-col">
                   <div>
-                    <div className="flex text-start justify-between text-base font-small text-gray-900">
+                    <div className="flex justify-between text-base font-medium text-gray-900">
                       <h3>
-                        <a href={product.href}>{product.name}</a>
+                        <a >{product.title}</a>
                       </h3>
-                      <p className="ml-4">{product.price}</p>
+                      <p className="ml-4">${product.price}</p>
                     </div>
-                    <p className="mt-1 text-start text-sm text-gray-500">{product.color}</p>
+                    <p className="mt-1 text-sm text-gray-500">{product.brand}</p>
                   </div>
                   <div className="flex flex-1 items-end justify-between text-sm">
                     <p className="text-gray-500">
                       <label htmlFor="quantity" className="inline text-sm font-medium leading-6 text-gray-900">
                         Qty
                       </label>
-                      <select className='ms-5'>
+
+                      <select className='ms-5' onChange={(e)=>handleQuantity(e,product)} value={product.quantity}>
                         <option value="1">1</option>
-                        <option value="1">2</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
                       </select>
-                    </p> 
+
+                    </p>
+
                     <div className="flex">
                       <button
+                      onClick={(e)=>handleDelete(e,product.id)}
                         type="button"
                         className="font-medium text-indigo-600 hover:text-indigo-500"
                       >
@@ -330,18 +337,22 @@ export default function CheackOut(){
 
 
         <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-          <div className="flex justify-between text-base font-medium text-gray-900">
+          <div className="flex justify-between  my-2 text-base font-medium text-gray-900">
             <p>Subtotal</p>
-            <p>$262.00</p>
+            <p>${totalAmount}</p>
+          </div>
+          <div className="flex justify-between my-2 text-base font-medium text-gray-900">
+            <p>Total items in cart</p>
+            <p>{totalQuantity} items</p>
           </div>
           <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
           <div className="mt-6">
-            <Link
-              to="/pay"
-              className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+            <div
+              onClick={handleOrder}
+              className="flex cursor-pointer items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
             >
-              Pay and Order
-            </Link>
+              Order now
+            </div>
           </div>
           <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
             <p>
@@ -359,8 +370,7 @@ export default function CheackOut(){
             </p>
           </div>
         </div>
-      </div>
-    </div>
+      </div> 
 
     </div>
     </div>

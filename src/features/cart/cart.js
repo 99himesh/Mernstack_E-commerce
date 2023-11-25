@@ -4,7 +4,7 @@ import { deleteCartAsync, fetchItemByUserIdAsync, selectCart, updateCartAsync } 
 
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { selectLoggedInUser } from '../auth/authSlice';
 
 export default function Cart() {
@@ -25,6 +25,7 @@ export default function Cart() {
 
   return (
     <div className='bg-gray-400 py-12'>
+      {!items.length && <Navigate to="/" replace={true}></Navigate>}
       <div className="mx-auto   max-w-5xl bg-white   mx-24 first-letter: py-6 sm:px-6 lg:px-8">
         <div className="flow-root">
           <h2 className="mt-10 text-start text-2xl font-bold leading-9 tracking-tight text-gray-900">
