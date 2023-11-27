@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { deleteCartAsync, selectCart, updateCartAsync } from '../features/cart/cartSlice';
 import { selectLoggedInUser, updateUserAsync } from '../features/auth/authSlice';
 import { useForm } from "react-hook-form"
-import { createOrderAsync } from "../features/order/orderSlice";
+import { createOrderAsync, selectCurrentOrder } from "../features/order/orderSlice";
 
 
 
@@ -28,13 +28,9 @@ export default function CheackOut(){
   const items=useSelector(selectCart)
   const totalAmount=items.reduce((amount,item)=>item.price*item.quantity+amount,0)
   const totalQuantity=items.reduce((total,item)=>item.quantity+total,0)
-  
   const [selectedAddress,setSelectedAdress]=useState(null);
   const [paymentMethod,setPaymentMethod]=useState("cash")
-
-
-
-
+  const currentOrder=useSelector(selectCurrentOrder)
   const handleaddress=(e)=>{
     setSelectedAdress(user.addresses[e.target.value])     
   }
@@ -42,16 +38,23 @@ export default function CheackOut(){
   const handlePayment=(e)=>{
     setPaymentMethod(e.target.value)
   }
+  
   const handleOrder=()=>{
-    const order={items,totalAmount,totalQuantity,user,paymentMethod,selectedAddress}
-    dispatch(createOrderAsync(order))
-    
+    console.log(selectedAddress,paymentMethod);
+    if(selectedAddress && paymentMethod) {
+      const order={items,totalAmount,totalQuantity,user,paymentMethod,selectedAddress,status:"pending"}
+      dispatch(createOrderAsync(order))
+      
+    }else{
+      alert("select address and payment method")
+    }
+   
   }
  
     return(
         <>
       {!items.length && <Navigate to="/" replace={true}></Navigate>}
-
+      {currentOrder && <Navigate to={`/order-success/${currentOrder.id}`}></Navigate>}
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 bg-gray-500 mt-5 py-5">
          <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
             <div className="lg:col-span-3 bg-white px-5 py-5">

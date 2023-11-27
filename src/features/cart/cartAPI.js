@@ -41,3 +41,19 @@ export async function fetchItemByUserId(userId){
   const data =await response.json();
   return {data}
 }
+
+
+export  async function reseCart(id){
+  return new Promise(async (resolve) =>{
+   const response=await fetchItemByUserId(id);
+   const items=response.data;
+   console.log(items);
+   if(items.length>0){
+    console.log();
+    for(let item of items){
+      await deleteCart(item.id)
+     }
+    resolve({status:"success"})
+   }
+  })
+}

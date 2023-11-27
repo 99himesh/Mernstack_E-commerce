@@ -12,7 +12,6 @@ export default function Cart() {
   const dispatch = useDispatch();
   const user=useSelector(selectLoggedInUser)
   const items=useSelector(selectCart)
-  console.log(items);
   const totalAmount=items.reduce((amount,item)=>item.price*item.quantity+amount,0)
   const totalQuantity=items.reduce((total,item)=>item.quantity+total,0)
   const handleQuantity=(e,item)=>{
@@ -32,7 +31,7 @@ export default function Cart() {
             Cart
           </h2>
           <ul role="list" className="-my-6 divide-y divide-gray-200">
-            {items && items.map((product) => (
+            { items.length>0 && items.map((product) => (
               <li key={product.id} className="flex py-6">
                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                   <img
@@ -65,9 +64,7 @@ export default function Cart() {
                         <option value="4">4</option>
                         <option value="5">5</option>
                       </select>
-
                     </p>
-
                     <div className="flex">
                       <button
                       onClick={(e)=>handleDelete(e,product.id)}
@@ -83,9 +80,6 @@ export default function Cart() {
             ))}
           </ul>
         </div>
-
-
-
         <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
           <div className="flex justify-between  my-2 text-base font-medium text-gray-900">
             <p>Subtotal</p>
