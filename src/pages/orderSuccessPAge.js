@@ -12,14 +12,9 @@ export default function OrderSuccess(){
     const cart=useSelector(selectCart)
 
     useEffect(()=>{
-
         dispatch(reseCartAsync(user.id))
         dispatch(resetOrder())
     },[dispatch,user])
-
-
-
-
     return(
         <> 
             {!params?.id && <Navigate to="/" replace="true"></Navigate>}        
@@ -32,10 +27,8 @@ export default function OrderSuccess(){
             <Link
              to="/"
              className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Go back home
+            >Go back home
             </Link>
-          
           </div>
         </div>
       </main>

@@ -19,8 +19,8 @@ export default function Navbar({children}){
       
       ]
       const userNavigation = [
-        { name: 'Your Profile', link: '#' },
-        { name: 'Settings', link: '#' },
+        { name: 'Your Profile', link: '/profile'},
+        { name: 'My Order', link: '/orders' },
         { name: 'Sign out', link: '/login' },
       ]
       
