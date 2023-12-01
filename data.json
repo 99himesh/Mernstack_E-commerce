@@ -1846,16 +1846,6 @@
       "password": "Corona2020@",
       "addresses": [
         {
-          "name": "Himesh kashyap",
-          "email": "himeshkashyap347@gmail.com",
-          "phone": "8081648805",
-          "country": "Canada",
-          "street": "Ghaila",
-          "city": "Lucknow",
-          "state": "Uttar Pradesh",
-          "pincode": "226020"
-        },
-        {
           "name": "himesh kashyap",
           "email": "himeshkashyap347@gmail.com",
           "phone": "08081648805",
@@ -2202,6 +2192,72 @@
       },
       "status": "pending",
       "id": 5
+    },
+    {
+      "items": [
+        {
+          "title": "HP Pavilion 15-DK1056WM",
+          "description": "HP Pavilion 15-DK1056WM Gaming Laptop 10th Gen Core i5, 8GB, 256GB SSD, GTX 1650 4GB, Windows 10",
+          "price": 1099,
+          "discountPercentage": 6.18,
+          "rating": 4.43,
+          "stock": 89,
+          "brand": "HP Pavilion",
+          "category": "laptops",
+          "thumbnail": "https://i.dummyjson.com/data/products/10/thumbnail.jpeg",
+          "images": [
+            "https://i.dummyjson.com/data/products/10/1.jpg",
+            "https://i.dummyjson.com/data/products/10/2.jpg",
+            "https://i.dummyjson.com/data/products/10/3.jpg",
+            "https://i.dummyjson.com/data/products/10/thumbnail.jpeg"
+          ],
+          "quantity": 1,
+          "user": 1,
+          "id": 1
+        }
+      ],
+      "totalAmount": 1099,
+      "totalQuantity": 1,
+      "user": {
+        "email": "Himeshkashyap347@gmail.com",
+        "password": "Corona2020@",
+        "addresses": [
+          {
+            "name": "Himesh kashyap",
+            "email": "himeshkashyap347@gmail.com",
+            "phone": "8081648805",
+            "country": "Canada",
+            "street": "Ghaila",
+            "city": "Lucknow",
+            "state": "Uttar Pradesh",
+            "pincode": "226020"
+          },
+          {
+            "name": "himesh kashyap",
+            "email": "himeshkashyap347@gmail.com",
+            "phone": "08081648805",
+            "country": "United States",
+            "street": "balia",
+            "city": "Lucknow",
+            "state": "Uttar Pradesh",
+            "pincode": "226020"
+          }
+        ],
+        "id": 1
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Himesh kashyap",
+        "email": "himeshkashyap347@gmail.com",
+        "phone": "8081648805",
+        "country": "Canada",
+        "street": "Ghaila",
+        "city": "Lucknow",
+        "state": "Uttar Pradesh",
+        "pincode": "226020"
+      },
+      "status": "pending",
+      "id": 6
     }
   ]
 }

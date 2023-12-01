@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom'
 import { handler } from '@tailwindcss/aspect-ratio'
 import { selectLoggedInUser } from '../../auth/authSlice'
 import { addToCartAsync } from '../../cart/cartSlice'
+import { selectUserInfo } from '../../user/userSlice'
 
 
   const colors= [
@@ -35,7 +36,7 @@ function classNames(...classes) {
 
 export default function ProductDetails() {
   const dispatch=useDispatch();
-  const user=useSelector(selectLoggedInUser)
+  const user=useSelector(selectUserInfo)
   const param=useParams();
   const [selectedColor, setSelectedColor] = useState(colors[0])
   const [selectedSize, setSelectedSize] = useState(sizes[2])

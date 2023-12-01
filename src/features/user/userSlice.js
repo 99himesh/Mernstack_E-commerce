@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {  fetchLoggedinUSerOrder } from './userapi';
+import {  fetchLoggedinUSer, fetchLoggedinUSerOrder, updateUser } from './userapi';
 
 const initialState = {
   userOrders: [],
   status: 'idle',
+  userInfo:null
 };
 
 export const fetchLoggedinUSerOrderAsync = createAsyncThunk(
@@ -14,6 +15,23 @@ export const fetchLoggedinUSerOrderAsync = createAsyncThunk(
     return response.data;
   }
 );
+export const fetchLoggedinUSerAsync = createAsyncThunk(
+  'user/fetchLoggedinUSer',
+  async (useId) => {
+    const response = await fetchLoggedinUSer(useId);
+    // The value we return becomes the `fulfilled` action payload
+    return response.data;
+  }
+);
+export const updateUserAsync = createAsyncThunk(
+  'user/updateUser',
+  async (useId) => {
+    const response = await updateUser(useId);
+    // The value we return becomes the `fulfilled` action payload
+    return response.data;
+  }
+);
+
 
 
 export const userSlice = createSlice({
@@ -34,6 +52,21 @@ export const userSlice = createSlice({
         state.status = 'idle';
         state.userOrders = action.payload;
       })
+      .addCase(updateUserAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(updateUserAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.userOrders = action.payload;
+      })
+      .addCase(fetchLoggedinUSerAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchLoggedinUSerAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.userInfo = action.payload;
+        console.log(state.userInfo);
+      })
   },
 });
 
@@ -41,6 +74,7 @@ export const { increment, decrement, incrementByAmount } = userSlice.actions;
 
 
 export const selectUserOrder = (state) => state.user.userOrders;
+export const selectUserInfo = (state) => state.user.userInfo;
 
 
 export default userSlice.reducer;

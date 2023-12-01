@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { fetchLoggedinUSerOrderAsync, selectUserOrder } from '../userSlice';
-import { selectLoggedInUser } from '../../auth/authSlice';
+import { fetchLoggedinUSerOrderAsync, selectUserInfo, selectUserOrder } from '../userSlice';
 
 export default function UserOrder() {
   const dispatch = useDispatch();
-  const user=useSelector(selectLoggedInUser)
+  const user=useSelector(selectUserInfo)
   const orders=useSelector(selectUserOrder)
   useEffect(()=>{
     dispatch(fetchLoggedinUSerOrderAsync(user?.id))
@@ -40,7 +39,6 @@ export default function UserOrder() {
                     className="h-full w-full object-cover object-center"
                   />
                 </div>
-
                 <div className="ml-4 flex flex-1 flex-col">
                   <div>
                     <div className="flex justify-between text-base font-medium text-gray-900">
@@ -56,10 +54,7 @@ export default function UserOrder() {
                       <label htmlFor="quantity" className="inline text-sm font-medium leading-6 text-gray-900">
                         Qty:{product.quantity}
                       </label>
-
-                  
-                    </p>
-                    
+                    </p>     
                   </div>
                 </div>
               </li>
@@ -75,24 +70,17 @@ export default function UserOrder() {
             <p>Total items in cart</p>
             <p>{order.totalQuantity} items</p>
           </div>
-    
-        
         </div>
       </div>
           </div>
         </div>
-          
-
         <ul role="list" className="divide-y divide-gray-100 ">
         <li  className="flex justify-between gap-x-6 py-5 px-5 border-solid border-2 ">
           <div className="flex min-w-0 gap-x-4 ">
-             
-         
             <div className="min-w-0 flex-auto">
               <p className="text-sm font-semibold leading-6 text-gray-900">{order.selectedAddress.name}</p>
               <p className="mt-1 truncate text-xs leading-5 text-gray-500">{order.selectedAddress.street}</p>
               <p className="mt-1 truncate text-xs leading-5 text-gray-500">{order.selectedAddress.city}</p>
-
             </div>
           </div>
           <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
@@ -100,9 +88,7 @@ export default function UserOrder() {
             <p className="text-sm leading-6 text-gray-900">{order.selectedAddress.state}</p>
           </div>
         </li>
-    </ul>
-          
-          
+    </ul>      
         </>
       )
     })}

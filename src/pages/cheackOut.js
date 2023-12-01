@@ -5,6 +5,7 @@ import { deleteCartAsync, selectCart, updateCartAsync } from '../features/cart/c
 import { selectLoggedInUser, updateUserAsync } from '../features/auth/authSlice';
 import { useForm } from "react-hook-form"
 import { createOrderAsync, selectCurrentOrder } from "../features/order/orderSlice";
+import { selectUserInfo } from "../features/user/userSlice";
 
 
 
@@ -24,7 +25,7 @@ export default function CheackOut(){
 
   }
   const dispatch = useDispatch();
-  const user=useSelector(selectLoggedInUser)
+  const user=useSelector(selectUserInfo)
   const items=useSelector(selectCart)
   const totalAmount=items.reduce((amount,item)=>item.price*item.quantity+amount,0)
   const totalQuantity=items.reduce((total,item)=>item.quantity+total,0)

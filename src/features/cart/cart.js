@@ -5,12 +5,12 @@ import { deleteCartAsync, fetchItemByUserIdAsync, selectCart, updateCartAsync } 
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { Link, Navigate } from 'react-router-dom';
-import { selectLoggedInUser } from '../auth/authSlice';
+import { selectUserInfo } from '../user/userSlice';
 
 export default function Cart() {
   const [open, setOpen] = useState(true)
   const dispatch = useDispatch();
-  const user=useSelector(selectLoggedInUser)
+  const user=useSelector(selectUserInfo)
   const items=useSelector(selectCart)
   const totalAmount=items.reduce((amount,item)=>item.price*item.quantity+amount,0)
   const totalQuantity=items.reduce((total,item)=>item.quantity+total,0)

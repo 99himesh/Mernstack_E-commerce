@@ -4,10 +4,11 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import { selectLoggedInUser } from "../features/auth/authSlice";
 import { reseCartAsync, selectCart } from "../features/cart/cartSlice";
 import { resetOrder } from "../features/order/orderSlice";
+import { selectUserInfo } from "../features/user/userSlice";
 
 export default function OrderSuccess(){
     const params=useParams();
-    const user=useSelector(selectLoggedInUser)
+    const user=useSelector(selectUserInfo)
     const dispatch=useDispatch();
     const cart=useSelector(selectCart)
 
