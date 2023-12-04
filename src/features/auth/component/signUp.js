@@ -7,13 +7,10 @@ import { useForm, SubmitHandler } from "react-hook-form"
 export default function Signup() {
   const dispatch = useDispatch();
   const {register,handleSubmit,watch,formState: { errors } } = useForm()
-  const user=useSelector(selectLoggedInUser)
-
-
+  const user=useSelector(selectLoggedInUser);
   return (
     <div>
     {user && <Navigate to="/" replace={true}></Navigate>}
-      
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
@@ -28,7 +25,7 @@ export default function Signup() {
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form noValidate className="space-y-6" onSubmit={handleSubmit((data)=>{
-            dispatch(createUserAsync({email:data.email,password:data.password,addresses:[]}))
+            dispatch(createUserAsync({email:data.email,password:data.password,addresses:[],role:"user"}))
           })}>
             <div>
               <label htmlFor="email" className="text-start block text-sm font-medium leading-6 text-gray-900">
@@ -57,7 +54,7 @@ export default function Signup() {
                   {...register("password",{ required: "password required",pattern:{value:/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,message:`- at least 8 characters
                   - must contain at least 1 uppercase letter/n
                   , 1 lowercase letter, and 1 number
-                  - Can contain special characters`} })}
+                  - Can contain special characters`}})}
                   type="password"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -92,8 +89,7 @@ export default function Signup() {
               </button>
             </div>
           </form>
-
-          <p className="mt-10 text-center text-sm text-gray-500">
+           <p className="mt-10 text-center text-sm text-gray-500">
             Already a member?
             <Link to="/login" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
               Login

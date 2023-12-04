@@ -4,7 +4,7 @@ import {
   fetchAllProductsAsync,
   fetchAllProductsByFilterAsync,
   selectAllProduct,
-} from '../productSlice';
+} from '../../product/productSlice';
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { StarIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid';
@@ -12,7 +12,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
 import { Link } from 'react-router-dom';
 import { ITEM_PER_PAGE } from '../../../app/constant';
 
-export default function ProductList() {
+export default function AdminProductList() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
 
@@ -33,10 +33,9 @@ export default function ProductList() {
     { name: 'Price: High to Low',sort:"price",order:"desc", current: false },
   ]
 
-
   const filters = [
     {
-      id: 'category',
+      id: 'category', 
       name: 'Category',
       options: [
         { value: 'smartphones', label: 'smartphones', cheacked: false },
@@ -151,6 +150,7 @@ export default function ProductList() {
     }
     
   useEffect(() => {
+
     const pagination={_page:page,_limit:ITEM_PER_PAGE}
     dispatch(fetchAllProductsByFilterAsync({filter,sort,pagination}))
   }, [dispatch,filter,sort,page])
@@ -460,25 +460,15 @@ function Pagination({page,setPage,handlePagination,totalItem=101}){
                 >
                   {index+1}
                 </div>
-
                 )
-
               })}
-               
-            
-            
-
                   <span className="sr-only">Next</span>
                   <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-                
               </nav>
             </div>
           </div>
         </div>
-
-
    </div>
-
    );
 }
 function ProductGrid({products}){
@@ -486,6 +476,9 @@ function ProductGrid({products}){
 <div className='bg-slate-950'>
                     <div className="bg-white">
                       <div className="mx-auto max-w-2xl px-4 py-0 sm:px-6 sm:py-0    lg:max-w-7xl lg:px-8">
+                         <div>
+                                <Link to="/admin/product-form" className="mt-5 w-1/3 flex text-sm items-center justify-center rounded-md border border-transparent bg-green-600 px-5 py-1  font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">Add New Products</Link>
+                             </div>  
                         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
                           {products?.map((product) => (
                             <>
@@ -516,9 +509,16 @@ function ProductGrid({products}){
 
                                       <p className="text-sm font-medium text-gray-400 line-through"> ${product.price}</p>
                                     </div>
+                                   
                                   </div>
+                                {product.deleted &&  <p classname="text-sm text-red-400  ">product Deleted</p>}
+
                                 </div>
+                                <div>
+                                <Link to={`/admin/product-form/edit/${product.id}`} className="mt-5 flex  text-sm items-center justify-center rounded-md border border-transparent bg-indigo-600 px-5 py-1  font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Edit Products</Link>
+                             </div>              
                               </Link>
+
                             </>
                           ))}
                         </div>

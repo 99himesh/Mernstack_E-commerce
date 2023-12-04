@@ -20,6 +20,9 @@ export default function UserProfile() {
                     <h5 className="mt-5 text-start text-2xl font-bold leading-9 tracking-tight text-gray-900">
                         Email Address :{user.email}
                     </h5>
+                    {user.role==="admin" && <h5 className="mt-5 text-start text-2xl font-bold leading-9 tracking-tight text-gray-900">
+                       Role :{user.role}
+                    </h5>}
 
                 </div>
                 <p className="text-start pt-5">Your Adddressess:</p>

@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchAllProducts, fetchAllProductsByFilter, fetchProdductbyId } from './productApi';
+import { createProduct, fetchAllProducts, fetchAllProductsByFilter, fetchProdductbyId, updateProduct } from './productApi';
 
 const initialState = {
   products: [],
-  selectedProduct:[],
+  selectedProductByIDs:[],
   status: 'idle',
 };
 
@@ -14,6 +14,14 @@ export const fetchAllProductsAsync = createAsyncThunk(
     return response.data;
   }
 );
+export const createProductAsync = createAsyncThunk(
+  'product/createProduct',
+  async (product) => {
+    const response = await createProduct(product);
+    return response.data;
+  }
+);
+
 export const fetchAllProductsByFilterAsync = createAsyncThunk(
   'product/fetchAllProductsByFilter',
   async ({filter,sort,pagination}) => {
@@ -25,8 +33,17 @@ export const fetchAllProductsByFilterAsync = createAsyncThunk(
 export const fetchProducctByidAsync = createAsyncThunk(
   'selectedProduct/fetchProdductbyId',
   async (id) => {
-    console.log("id");
+    console.log("product id");
     const response = await fetchProdductbyId(id);
+    return response.data; 
+  }
+);
+
+export const updateProductAsync = createAsyncThunk(
+  'selectedProduct/updateProduct',
+  async (product) => {
+    console.log("id");
+    const response = await updateProduct(product);
     return response.data; 
   }
 );
@@ -35,6 +52,7 @@ export const productSlice = createSlice({
   name: 'product',
   initialState,
   reducers: {
+    
   
     
   },
@@ -60,8 +78,24 @@ export const productSlice = createSlice({
       })
       .addCase(fetchProducctByidAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.selectedProduct = action.payload;
+        state.selectedProductByIDs = action.payload;
+        console.log(state.selectedProductByIDs);
       })
+      .addCase(createProductAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(createProductAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.products.push(action.payload);
+      })
+      .addCase(updateProductAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(updateProductAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+         const index=state.products.findIndex(product=>product.id==action.payload.id)
+         state.products[index]=action.payload
+       })
   },
 });
 
@@ -69,7 +103,7 @@ export const {  } = productSlice.actions;
 
 
 export const selectAllProduct = (state) => state.product.products;
-export const selectedProduct = (state) => state.product.selectedProduct;
+export const selectedProduct = (state) => state.product.selectedProductByIDs;
 
 
 
