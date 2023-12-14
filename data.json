@@ -52,7 +52,8 @@
       "thumbnail": "https://i.dummyjson.com/data/products/3/thumbnail.jpg",
       "images": [
         "https://i.dummyjson.com/data/products/3/1.jpg"
-      ]
+      ],
+      "deleted": true
     },
     {
       "id": 4,
@@ -71,7 +72,8 @@
         "https://i.dummyjson.com/data/products/4/3.jpg",
         "https://i.dummyjson.com/data/products/4/thumbnail.jpg"
       ],
-      "categary": "smartphones"
+      "categary": "smartphones",
+      "deleted": true
     },
     {
       "id": 5,
@@ -90,7 +92,8 @@
         "https://i.dummyjson.com/data/products/5/3.jpg",
         "https://i.dummyjson.com/data/products/5/thumbnail.jpg"
       ],
-      "categary": "smartphones"
+      "categary": "smartphones",
+      "deleted": true
     },
     {
       "id": 6,
@@ -1901,6 +1904,245 @@
       "id": 103
     }
   ],
+  "category": [
+    {
+      "value": "smartphones",
+      "label": "smartphones",
+      "cheacked": false
+    },
+    {
+      "value": "laptops",
+      "label": "laptops",
+      "cheacked": false
+    },
+    {
+      "value": "fragrances",
+      "label": "fragrances",
+      "cheacked": false
+    },
+    {
+      "value": "skincare",
+      "label": "skincare",
+      "cheacked": false
+    },
+    {
+      "value": "groceries",
+      "label": "groceries",
+      "cheacked": false
+    },
+    {
+      "value": "home-decoration",
+      "label": "home-decoration",
+      "cheacked": false
+    },
+    {
+      "value": "furniture",
+      "label": "furniture",
+      "cheacked": false
+    },
+    {
+      "value": "tops",
+      "label": "tops",
+      "cheacked": false
+    },
+    {
+      "value": "womens-dresses",
+      "label": "womens-dresses",
+      "cheacked": false
+    },
+    {
+      "value": "womens-shoes",
+      "label": "womens-shoes",
+      "cheacked": false
+    },
+    {
+      "value": "mens-shirts",
+      "label": "mens-shirts",
+      "cheacked": false
+    },
+    {
+      "value": "mens-shoes",
+      "label": "mens-shoes",
+      "cheacked": false
+    },
+    {
+      "value": "mens-watches",
+      "label": "mens-watches",
+      "cheacked": false
+    },
+    {
+      "value": "womens-watches",
+      "label": "womens-watches",
+      "cheacked": false
+    },
+    {
+      "value": "womens-bags",
+      "label": "womens-bags",
+      "cheacked": false
+    },
+    {
+      "value": "womens-jewellery",
+      "label": "womens-jewellery",
+      "cheacked": false
+    },
+    {
+      "value": "sunglasses",
+      "label": "sunglasses",
+      "cheacked": false
+    },
+    {
+      "value": "automotive",
+      "label": "automotive",
+      "cheacked": false
+    },
+    {
+      "value": "motorcycle",
+      "label": "motorcycle",
+      "cheacked": false
+    },
+    {
+      "value": "lighting",
+      "label": "lighting",
+      "cheacked": false
+    }
+  ],
+  "brands": [
+    {
+      "value": "Apple",
+      "label": "Apple",
+      "cheacked": false
+    },
+    {
+      "value": "Samsung",
+      "label": "Samsung",
+      "cheacked": false
+    },
+    {
+      "value": "OPPO",
+      "label": "OPPO",
+      "cheacked": false
+    },
+    {
+      "value": "Huawei",
+      "label": "Huawei",
+      "cheacked": false
+    },
+    {
+      "value": "Microsoft Surface",
+      "label": "Microsoft Surface",
+      "cheacked": false
+    },
+    {
+      "value": "Infinix",
+      "label": "Infinix",
+      "cheacked": false
+    },
+    {
+      "value": "HP Pavilion",
+      "label": "HP Pavilion",
+      "cheacked": false
+    },
+    {
+      "value": "Impression of Acqua Di Gio",
+      "label": "Impression of Acqua Di Gio",
+      "cheacked": false
+    },
+    {
+      "value": "Royal_Mirage",
+      "label": "Royal_Mirage",
+      "cheacked": false
+    },
+    {
+      "value": "Fog Scent Xpressio",
+      "label": "Fog Scent Xpressio",
+      "cheacked": false
+    },
+    {
+      "value": "Al Munakh",
+      "label": "Al Munakh",
+      "cheacked": false
+    },
+    {
+      "value": "Lord - Al-Rehab",
+      "label": "Lord - Al-Rehab",
+      "cheacked": false
+    },
+    {
+      "value": "L'Oreal Paris",
+      "label": "L'Oreal Paris",
+      "cheacked": false
+    },
+    {
+      "value": "Hemani Tea",
+      "label": "Hemani Tea",
+      "cheacked": false
+    },
+    {
+      "value": "Dermive",
+      "label": "Dermive",
+      "cheacked": false
+    },
+    {
+      "value": "ROREC White Rice",
+      "label": "ROREC White Rice",
+      "cheacked": false
+    },
+    {
+      "value": "Fair & Clear",
+      "label": "Fair & Clear",
+      "cheacked": false
+    },
+    {
+      "value": "Saaf & Khaas",
+      "label": "Saaf & Khaas",
+      "cheacked": false
+    },
+    {
+      "value": "Bake Parlor Big",
+      "label": "Bake Parlor Big",
+      "cheacked": false
+    },
+    {
+      "value": "Baking Food Items",
+      "label": "Baking Food Items",
+      "cheacked": false
+    },
+    {
+      "value": "fauji",
+      "label": "fauji",
+      "cheacked": false
+    },
+    {
+      "value": "Dry Rose",
+      "label": "Dry Rose",
+      "cheacked": false
+    },
+    {
+      "value": "Boho Decor",
+      "label": "Boho Decor",
+      "cheacked": false
+    },
+    {
+      "value": "Flying Wooden",
+      "label": "Flying Wooden",
+      "cheacked": false
+    },
+    {
+      "value": "LED Lights",
+      "label": "LED Lights",
+      "cheacked": false
+    },
+    {
+      "value": "luxury palace",
+      "label": "luxury palace",
+      "cheacked": false
+    },
+    {
+      "value": "Golden",
+      "label": "Golden",
+      "cheacked": false
+    }
+  ],
   "users": [
     {
       "email": "Himeshkashyap347@gmail.com",
@@ -1991,7 +2233,7 @@
         "state": "Uttar Pradesh",
         "pincode": "226020"
       },
-      "status": "pending",
+      "status": "dispatch",
       "id": 1
     },
     {
@@ -2087,7 +2329,7 @@
         "state": "Uttar Pradesh",
         "pincode": "226020"
       },
-      "status": "pending",
+      "status": "cancelled",
       "id": 2
     },
     {
@@ -2143,7 +2385,7 @@
         "state": "Uttar Pradesh",
         "pincode": "226020"
       },
-      "status": "pending",
+      "status": "dispatch",
       "id": 3
     },
     {
@@ -2332,7 +2574,7 @@
         "state": "Uttar Pradesh",
         "pincode": "226020"
       },
-      "status": "pending",
+      "status": "delivered",
       "id": 6
     }
   ]

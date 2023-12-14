@@ -109,7 +109,7 @@ useEffect(() => {
     setValue("description", selectedProductbyId.description);
     setValue("discountPercentage", selectedProductbyId.discountPercentage);
     setValue("stock", selectedProductbyId.stock);
-    setValue("price", selectedProductbyId.price);
+    setValue("price",selectedProductbyId.price );
     setValue("brand", selectedProductbyId.brand);
     setValue("categary", selectedProductbyId.categary);
     setValue("thumbnail", selectedProductbyId.thumbnail);

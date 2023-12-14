@@ -13,6 +13,8 @@ export default function Navbar({children}){
         { name: 'Dashboard', link: '/', user: true },
         { name: 'Team', link: '/', user: true },
         { name: 'Admin', link: '/admin', admin: true },
+        { name: 'order', link: '/admin/orders', admin: true },
+
 
       
       ]

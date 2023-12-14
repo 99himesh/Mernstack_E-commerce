@@ -1,8 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { createProduct, fetchAllProducts, fetchAllProductsByFilter, fetchProdductbyId, updateProduct } from './productApi';
+import { createProduct, fetchAllBrands, fetchAllCategary, fetchAllProducts, fetchAllProductsByFilter, fetchProdductbyId, updateProduct } from './productApi';
 
 const initialState = {
   products: [],
+  catagory:[],
+  brands:[],
   selectedProductByIDs:[],
   status: 'idle',
 };
@@ -44,6 +46,20 @@ export const updateProductAsync = createAsyncThunk(
   async (product) => {
     console.log("id");
     const response = await updateProduct(product);
+    return response.data; 
+  }
+);
+export const fetchAllCategaryAsync = createAsyncThunk(
+  'product/fetchAllCategary',
+  async () => {
+    const response = await fetchAllCategary();
+    return response.data; 
+  }
+);
+export const fetchAllBrandsAsync = createAsyncThunk(
+  'product/fetchAllBrands',
+  async () => {
+    const response = await fetchAllBrands();
     return response.data; 
   }
 );
@@ -96,6 +112,20 @@ export const productSlice = createSlice({
          const index=state.products.findIndex(product=>product.id==action.payload.id)
          state.products[index]=action.payload
        })
+       .addCase(fetchAllCategaryAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchAllCategaryAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.catagory=action.payload;
+      })
+      .addCase(fetchAllBrandsAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchAllBrandsAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.brands=action.payload;
+      })
   },
 });
 
@@ -104,6 +134,10 @@ export const {  } = productSlice.actions;
 
 export const selectAllProduct = (state) => state.product.products;
 export const selectedProduct = (state) => state.product.selectedProductByIDs;
+export const selectCategary = (state) => state.product.catagory;
+export const selectBrands = (state) => state.product.brands;
+
+
 
 
 
